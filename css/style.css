@@ -184,13 +184,13 @@ a img {
 	text-decoration: none;
 }
 #nav_tabs li.profile a {
-	background: #50c0e9;
+	background:  #ffa11a;
 }
 #nav_tabs li.portfolio a {
 	background: #a8d324;
 }
 #nav_tabs li.contacts a {
-	background: #7caf00;
+	background: #ff4d94;
 }
 #nav_tabs li a:hover,
 #nav_tabs li.current a {
