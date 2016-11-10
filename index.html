@@ -768,3 +768,415 @@ Author URL: http://karthickkumar.tk
 		</div><!--/Page-->
 	</body>
 </html>
+/////
+
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<style>
+.cropArea {
+  background: #E4E4E4;
+  overflow: hidden;
+  width:500px;
+  height:350px;
+}
+</style>
+<body style="background-color:#EBEBEB" ng-app="app" ng-controller="Ctrl">
+    <canvas id="canvas" width="800" height="800" style="border: 1px solid white;"></canvas>
+    <br/>
+    <!-- <label>Choose a File:</label>
+    <br/>
+    <br />
+    <input type="file" id="imageLoader" name="imageLoader" />
+    <br />
+    <br /> -->
+     <div style="position: absolute;margin-left: 800px;margin-top: -800px;">
+     <div>Select an image file: <input type="file" id="fileInput" />  
+      <button id="crop" ng-click="onCrop(myCroppedImage)">Crop</button> 
+      <button id="insert">Apply Collage</button>
+      <button id="ungroup">Edit</button></div>
+	  <div class="cropArea">
+	    <img-crop image="myImage" id="corpImg" area-type="square" change-on-fly="true" result-image-format="image/jpeg"  result-image-size="400" result-image-quality="1.0" on-change="onChangeNGCrop(myCroppedImage)" result-image="myCroppedImage"></img-crop>
+	  </div>
+	</div>
+	  <div style="display:none">Cropped Image:</div>
+	  <div>
+	  	<img ng-src="{{myCroppedImage}}" style="display:none"/>
+	  </div>
+	 <link rel="stylesheet" type="text/css" href="lib/ng-img-crop.css"> 
+    <script src="lib/fabric.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="lib/ng-img-crop.js"></script>
+    <script src="lib/jquery-3.1.1.js"></script>
+    <script>
+    var copiedObject;
+    var copiedObjects = new Array();
+    var canvas = new fabric.Canvas('canvas');
+    canvas.backgroundColor="white";
+	var clippingRect = new fabric.Rect({
+        left: 100,
+        top: 100,
+        width: 200,
+        height: 200,
+        selectable: true    
+    });
+
+    // canvas.add(clippingRect);
+
+    /*var svg = '<svg width="400" height="400"><rect width="400" height="400" id="rect1" style="fill:black;stroke-width:0;stroke:rgb(0,0,0)"></svg>'*/
+
+    var svg = '<svg version="1.1" id="s575Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="800px" height="800px" viewBox="0 0 800 800" enable-background="new 0 0 800 800" xml:space="preserve"><rect fill="#FFFFFF" width="800" height="800"></rect><path fill="#070707" d="M80.317,138.521l276.46-63.338c0,0,55.632,31.67-5.993,95.863c0,0-60.768,29.1-66.761,90.725c0,0,0,62.48,23.967,90.725c0,0,25.678,45.364-17.974,47.932c0,0-66.763,14.553-132.668,9.416l-98.426-8.561L80.317,138.521z"></path><path fill="#070707" d="M392.723,75.184c0,0,19.688,26.532,4.28,64.192c0,0-5.99,32.528,28.245,34.238c0,0,29.955,12.839,35.09,34.235c0,0,50.5-53.925,109.557-32.525c0,0,74.465,20.542,41.939,127.53c0,0-0.855,34.235,109.557-22.254L710.264,5L392.723,75.184z"></path><path fill="#070707" d="M731.66,322.541l29.959,468.179l-409.125-4.276c0,0-6.846-184.875,86.447-314.975C438.941,471.469,551.066,336.235,731.66,322.541z"></path><path fill="#070707" d="M326.818,785.585L38.381,795l20.542-371.463c0,0,122.393,53.068,251.636-4.277c0,0,45.361-26.532,58.199,7.703c0,0,34.238,29.1,15.406,67.615C384.165,494.578,299.43,671.748,326.818,785.585z"></path><path fill="#070707" d="M449.213,254.068c0,0,84.734-113.845,136.088-25.254c0,0,38.354,72.192-80.453,147.648c0,0-81.313,54.777-90.729,54.777c0,0-59.91-75.316-81.309-91.58c0,0-54.002-58.941,5.99-120.683C338.801,218.978,396.146,158.205,449.213,254.068z"></path></svg>'
+
+    /*var loadedObject;
+    fabric.loadSVGFromString(svg, function(objects, options) {
+       loadedObject = fabric.util.groupSVGElements(objects, options);
+       for (var i = 0; i < loadedObject.paths.length; i++) {
+        // console.log(loadedObject.paths[0]);
+      }
+       canvas.add(loadedObject);
+       loadedObject.center().setCoords();
+       canvas.setActiveObject(loadedObject).renderAll();
+    });*/
+	var items;
+    fabric.loadSVGFromString(svg, function(objects, options) {
+        var groups = new fabric.Group(objects);
+        groups.scaleToHeight(canvas.height);
+        canvas.centerObject(groups);
+        canvas.add(groups); 
+        
+        items = groups._objects;
+        groups._restoreObjectsState();
+        canvas.remove(groups);
+        for(var i = 0; i < items.length; i++) {
+
+          canvas.add(items[i]);
+          items[i].set({
+          	'selectable': true,
+          	'lockMovementX': false,
+          	'lockMovementY': false,
+          	'lockScalingFlip': false,
+          	'lockScalingX': false,
+          	'lockScalingY': false,
+          	'lockSkewingX': false,
+          	'lockSkewingY': false,
+          	'lockUniScaling': false
+          });
+          items[0].set('selectable', false);
+
+        }
+        canvas.renderAll();
+    });
+
+/*	$('body').on('change', '#imageLoader', function() {
+        var selectedFile = this.files[0];
+        selectedFile.convertToBase64(function(url){
+        	fabric.Image.fromURL(url, function(img) {
+		    img.setWidth(loadedObject.getWidth());
+		    img.setHeight(loadedObject.getHeight());
+
+		    var patternSourceCanvas = new fabric.StaticCanvas();
+		    patternSourceCanvas.add(img);
+
+		    var pattern  = new fabric.Pattern({
+		      source: function() {
+		        patternSourceCanvas.setDimensions({
+		          	width: loadedObject.getWidth(),
+		        	height: loadedObject.getHeight()        
+		    	});
+		        return patternSourceCanvas.getElement();
+		      },
+		      repeat: 'no-repeat'
+		    });
+		    var obj = canvas.getActiveObject();
+		    if (!obj) return;
+
+		    if (obj.fill instanceof fabric.Pattern) {
+		      obj.fill = null;
+		    }
+		    else {
+		      if (obj instanceof fabric.PathGroup) {
+		        obj.getObjects().forEach(function(activeSvg) { activeSvg.fill = pattern; });
+		      }
+		      else {
+		        obj.fill = pattern;
+		      }
+		    }
+		    canvas.renderAll();
+		  });
+        });
+    });*/
+
+   /*commaon function to convert base64 image to blob*/
+  function base64URL(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      var byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }   
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
+
+  function base64Type(data){
+    if(data.charAt(0)=='/'){
+      return "image/jpeg";
+    }else if(data.charAt(0)=='R'){
+      return "image/gif";
+    }else if(data.charAt(0)=='i'){
+      return "image/png";
+    }
+  }
+
+  File.prototype.convertToBase64 = function(callback){
+      var reader = new FileReader();
+      reader.onload = function(e) {
+          var url = e.target.result;
+          var baseURL = url.replace(/^data:image\/[a-z]+;base64,/, "");
+          var contentType = base64Type(baseURL)
+          var imgURL = base64URL(baseURL,contentType)
+          
+          var blobUrl = URL.createObjectURL(imgURL);
+          // callback(e.target.result)
+          callback(blobUrl)
+      };
+      reader.onerror = function(e) {
+           callback(null);
+      };        
+      reader.readAsDataURL(this);
+  };
+
+  angular.module('app', ['ngImgCrop'])
+	  .controller('Ctrl', function($scope) {
+	    $scope.myImage='';
+	    $scope.myCroppedImage='';
+	    var handleFileSelect=function(evt) {
+	      var file=evt.currentTarget.files[0];
+	      var reader = new FileReader();
+	      reader.onload = function (evt) {
+	        $scope.$apply(function($scope){
+	          $scope.myImage=evt.target.result;
+	        });
+	      };
+	      reader.readAsDataURL(file);
+	    };
+	    angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+	    
+      $scope.onChangeNGCrop = function(img){
+          var active = canvas.getActiveObject();
+          if(active != undefined){
+            var baseURL = img.replace(/^data:image\/[a-z]+;base64,/, "");
+            var contentType = base64Type(baseURL)
+            var imgURL = base64URL(baseURL,contentType)
+            var url = URL.createObjectURL(imgURL);
+
+            //fabric function
+            fabric.Image.fromURL(url, function(img) {
+              console.log(url)
+              img.setWidth(active.getWidth());
+              img.setHeight(active.getHeight());
+              img.setLeft(0);
+              img.setTop(0);
+
+            var patternSourceCanvas = new fabric.StaticCanvas();
+            patternSourceCanvas.add(img);
+
+            var pattern  = new fabric.Pattern({
+              source: function() {
+                patternSourceCanvas.setDimensions({     
+                  width: 800,
+                  height: 800
+              });
+                return patternSourceCanvas.getElement();
+              },
+              repeat: 'no-repeat'
+            });
+
+            if (!active) return;
+
+            if (active.fill instanceof fabric.Pattern) {
+              active.fill = null;
+            }
+            else {
+              if (active instanceof fabric.PathGroup) {
+                active.getObjects().forEach(function(o) { o.fill = pattern; });
+              }
+              else {
+                active.fill = pattern;
+              }
+            }
+          canvas.renderAll();
+        });
+      }
+      }
+      $scope.onCrop = function(img){
+          var active = canvas.getActiveObject();
+          if(active != undefined){
+          var baseURL = img.replace(/^data:image\/[a-z]+;base64,/, "");
+          var contentType = base64Type(baseURL)
+          var imgURL = base64URL(baseURL,contentType)
+          var url = URL.createObjectURL(imgURL);
+
+          //fabric function
+          fabric.Image.fromURL(url, function(img) {
+          	console.log(url)
+          	// var active = angular.element(document.querySelector("#rect1"));
+	        img.setWidth(active.getWidth());
+			    img.setHeight(active.getHeight());
+			    img.setLeft(0);
+			    img.setTop(0);
+
+			    var patternSourceCanvas = new fabric.StaticCanvas();
+			    patternSourceCanvas.add(img);
+
+			    var pattern  = new fabric.Pattern({
+			      source: function() {
+			        patternSourceCanvas.setDimensions({     
+			        	width: 800,
+			        	height: 800
+/*			        	top: 0,
+			        	left: 0*/
+			    	});
+			        return patternSourceCanvas.getElement();
+			      },
+			      repeat: 'no-repeat'
+			    });
+			    var obj = canvas.getActiveObject();
+			    if (!obj) return;
+
+			    if (obj.fill instanceof fabric.Pattern) {
+			      obj.fill = null;
+			    }
+			    else {
+			      if (obj instanceof fabric.PathGroup) {
+			        obj.getObjects().forEach(function(o) { o.fill = pattern; });
+			      }
+			      else {
+			        obj.fill = pattern;
+			      }
+			    }
+		    canvas.renderAll();
+		  });
+		 }
+	    }
+	  });
+	 $('#insert').click(function(){
+        var objs = canvas.getObjects().map(function(o) {
+          return o.set('active', true);
+        });
+        var group = new fabric.Group(objs, {
+          originX: 'center', 
+          originY: 'center'
+        });
+        canvas._activeObject = null;
+        canvas.setActiveGroup(group.setCoords()).renderAll();
+
+        var activegroup = canvas.getActiveGroup();
+        var activegroupObject = activegroup.getObjects();
+
+         for(var i in activegroupObject){
+            var object = fabric.util.object.clone(activegroupObject[i]);
+             copiedObjects[i] = object;
+        } 
+
+        if(copiedObjects.length > 0){
+          var collage = new fabric.Group(copiedObjects,{
+            originX: 'center', 
+            originY: 'center'
+          });
+          canvas.centerObject(collage);
+          //remove active grup
+          var activegroupC = canvas.getActiveGroup();
+           var objectsInGroupColg = activegroupC.getObjects();
+           console.log(objectsInGroupColg)
+            canvas.discardActiveGroup();
+            objectsInGroupColg.forEach(function(objects) {
+            canvas.remove(objects);
+            });
+          canvas.add(collage);              
+        }
+    });
+  $("#ungroup").click(function(){
+       var activeObject = canvas.getActiveObject();
+        if(activeObject.type=="group"){
+            var items = activeObject._objects;
+            items[0].set('selectable', false);            
+            activeObject._restoreObjectsState();
+            canvas.remove(activeObject);
+            for(var i = 0; i < items.length; i++) {
+              canvas.add(items[i]);
+              canvas.item(canvas.size()-1).hasControls = true;
+            }
+             
+            canvas.renderAll();
+        }
+    });
+
+
+
+  $('#copy').click(function(){
+
+      copy()
+
+    });
+
+  function copy(){
+    if(canvas.getActiveGroup()){
+      alert('activegroup')
+      var activegroup = canvas.getActiveGroup();
+      console.log(activegroup)
+      var activegroupObject = activegroup.getObjects()
+      console.log(activegroupObject)
+        for(var i in activegroupObject){
+            var object = fabric.util.object.clone(activegroupObject[i]);
+            object.set("top", object.top);
+            object.set("left", object.left);
+            copiedObjects[i] = object;
+        }                    
+    }
+   /* else if(canvas.getActiveObject()){
+      alert('_activeObject')
+        var object = fabric.util.object.clone(canvas.getActiveObject());
+        object.set("top", object.top+5);
+        object.set("left", object.left+5);
+        copiedObject = object;
+        copiedObjects = new Array();
+        console.log(canvas.getActiveObject())
+        console.log(object)
+    }*/
+
+    if(copiedObjects.length > 0){
+      var group = new fabric.Group(copiedObjects, {
+          originX: 'center', 
+          originY: 'center'
+        });
+        canvas._activeObject = null;
+        group.set("top", 350)
+        group.set("left", 350)
+        canvas.setActiveGroup(group.setCoords()).renderAll();
+        for(var i in copiedObjects){
+            canvas.add(copiedObjects[i]);
+        }                    
+    }
+/*    else if(copiedObject){
+        canvas.add(copiedObject);
+    }*/
+    canvas.renderAll();    
+}
+
+    </script>
+    
+</body>
+</html>
