@@ -1,3 +1,56 @@
+/*
+<!DOCTYPE html>
+<html>
+<style>
+ #tags {
+    margin-top:2em;
+    height:75px;
+    width:90%;
+    border:1px solid #000;
+}	
+</style>
+<head>
+<script src="jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+
+    $("#tags").keyup(function(event) {
+	  if (event.which === 32){
+	  	console.info(event.target.value)
+	  	var string = (event.target.value).replace('%20','')
+	  	var content = "http://www.google.com/inputtools/request?text="+ string +"&ime=transliteration_en_ta&num=5&cp=0&cs=0&ie=utf-8&oe=utf-8";
+		$("#result").empty();
+        $.ajax({url: content, success: function(result){
+            var data = result[1][0];
+            var tamilContent = data[1];	        
+	        $.each(tamilContent, function( index, value ) {
+			  $("#result").append('<li>'+value+'</li>');
+			  $('#tags').val( $('#tags').val().replace( string,  $("#tags").val() ) );
+			  $('#tags').val(tamilContent[0]);
+
+			});
+            
+		}
+		});
+	  } 
+	});
+});
+</script>
+</head>
+<body>
+<form>
+ <div class="ui-widget">
+    <label for="tags">Tags:</label>
+    <textarea id="tags" size="30"></textarea>
+    <ul id="result"></ul>
+</div>
+</form>
+
+</body>
+</html>
+
+*/
+
 //http://www.google.com/inputtools/request?text=karthick kumar&ime=transliteration_en_ta&num=10&cp=0&cs=0&ie=utf-8&oe=utf-8
 angular.module('angular-img-cropper', []).directive("imageCropper", ['$document', '$window', 'imageCropperDataShare','$rootScope', function ($document, $window, imageCropperDataShare,$rootScope) {
     return {
