@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="text/javascript" src="https://www.google.com/jsapi">
+    </script>
+    <script type="text/javascript">
+
+      google.load("elements", "1", {
+            packages: "transliteration"
+          });
+
+      function onLoad() {
+        var options = {
+          sourceLanguage: 'en',
+          destinationLanguage: ['ta','hi','kn','ml','te'],
+          shortcutKey: 'ctrl+g',
+          transliterationEnabled: true
+        };
+
+        var control =
+            new google.elements.transliteration.TransliterationControl(options);
+
+        var ids = [ "transl1", "transl2" ];
+        control.makeTransliteratable(ids);
+        
+        control.showControl('translControl');
+      }
+      google.setOnLoadCallback(onLoad);
+
+    </script>
+  </head>
+  <body>
+  <center>Type in Indian languages (Press Ctrl+g to toggle between English and Hindi)</center>
+    <div id='translControl'></div>
+    <br>Title : <input type='textbox' id="transl1"/>
+    <br>Body<br><textarea id="transl2" style="width:600px;height:200px"></textarea>
+  </body>
+</html>
