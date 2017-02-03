@@ -1,4 +1,4 @@
-
+//http://www.google.com/inputtools/request?text=karthick kumar&ime=transliteration_en_ta&num=10&cp=0&cs=0&ie=utf-8&oe=utf-8
 angular.module('angular-img-cropper', []).directive("imageCropper", ['$document', '$window', 'imageCropperDataShare','$rootScope', function ($document, $window, imageCropperDataShare,$rootScope) {
     return {
         scope: {
