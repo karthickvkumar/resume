@@ -1,0 +1,126 @@
+JavaScript:
+Up and Going:
+
+Chapter - 1
+1.Statements:
+	-> a group of word, numbers and opeartor that performs a specific task.
+	-> a = b * 2;
+2.Expression:
+	-> set of values and combined with operators.
+	-> b * 2;
+3.Executing a Program: 
+	-> collection of statement tells the computer what to do.
+	-> execution in computer done by using (Interpreter or Compiler).
+	a) Compiler: after the translation is done, program run.
+	b) Interpreter: each and every line of translation, program run.
+4.Output: 
+	-> console.log('value');
+	-> alert('value');
+5.Input:
+	->prompt(..)
+6.Operator:
+	-> assignment (=)
+	-> math (+-*/)
+	-> compound assignment (+=,-=,*=, /=)
+	-> imcrement/ decrement (++, --)
+	-> equality (loose-equal[==], strict-equal[===], loose not-equal[!=], strict not-equal[!==])
+	-> comparission (<, >, <=, >=)
+	-> logical (&&, ||)
+	-> object property access (.)
+7.Code comments:
+	-> single line comment (//) 	
+	-> single line comment (/*--*/) 
+8. Variable:
+	-> to store values (number, string, bool)
+	-> Dynamic typing 
+		|-> It hold any type of values with pre defining.
+9. Conditional: 
+	-> used to analysis condtions
+	-> if, else	, switch
+10. Loops:
+	-> while 
+	-> for
+11. Function: 
+	-> block of code ({})
+	-> code reusable		
+
+Chapter - 2
+1.Values and Types:
+	-> javascript are typed values not typed variables.
+	-> string, number, boolean, null, undefined, object and symbol.
+2. Objects: 
+	-> it has compound values, where we can set properties.
+	-> key : value	
+3. Built-In types:
+	-> native methods
+4.Coercion:	
+	-> type convertion
+	-> implicit coercion and explicit coercion
+5. Truthy and Falsy
+	-> non-boolean values are coerced to boolean
+	-> False
+		|-> false, "", 0, -0, NaN, null, undefined	
+	-> True
+		|-> true, "hi", 1, [], [0,1], {}, {a: 1}, function foo(){} 	
+6. Equality:
+	-> loose-equals check value and not its type
+	-> strict-equals check its values and type		
+7. Scope: 
+	-> 	Global and local scope
+8. Strict mode: 
+	-> keyword "use strict";	
+9. Function as values:
+	-> anonymous function and named function
+10. Immediately Invoked Function Expression (IIFR):
+	-> invoked immediately when the page is called.
+11. Old and New:
+	-> es5 and es6
+	-> Polyfilling and transpilling (transforming + compling)
+	-> it allows functionality work in modern browsers also work in older browsers
+12. Non-Javascript: 
+	-> DOM API, Browser API
+
+
+Scope and closure:
+Chapter - 1:
+
+1. Scope:
+	-> Program stata
+		|-> store vales in variable and retrive or modify
+	-> rules for storing variables in some location, and finiding values at later time.
+	-> lexical scope, function scope and block scope
+2. Compiler Theory:
+	->compilation process
+		|-> Tokenizing/Lexing 
+			-> breaking up a string of character into chunk of tokens
+		|-> Parsing 
+			-> taking token as input and generate Abstract Syntax tree
+		|-> Code generation
+			-> taking an AST and turning into executable code 
+			-> In js engine it uses JIT	
+
+Chapter - 2:
+1. Lexical Scope:
+	-> static scope or closure
+	-> Inner function contains the scope of parent function even if the parent function has returned
+	-> Inner fun contains the scope of parent fun. (inner function that has access to the outer )
+
+Chapter -3:
+1. Function Scope:
+	-> variable defined within a funciton is visible within that entire function
+2. Block Scope:
+	-> Declaring variables as close as possible, as local as possible
+
+Chapter - 4:
+1. Hoisting:
+	-> definintion : to raise or lift to a desired elevation.
+	-> var a = 2 |-> var a; a = 2
+	-> declaration come before the assignment
+	-> variable and function declarations are moved to top of their respective scopes.
+
+Chapter - 5
+1. Scope Closure:
+	-> closure is when a function can remember and access its lexical scope even its invoked outside its lexical scope.
+2. Dynamic 	Scope:
+	-> lexical scope is write-time, whereas dynamic scope(this) are runtime
+ 
