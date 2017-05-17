@@ -179,3 +179,62 @@ This all makes sense now:
 		-> built-in utility Function.prototype.bind
 		-> bind() returns a new function that is hard-coded to call the original function with the this context.
 		-> var bar = new foo();
+
+Chapter - 3:
+Objects: 
+	-> They are collection of key/value pairs
+
+1. Syntax: 
+	-> It can be defined by two forms
+	-> Declarative (literal) form
+	va obj = {
+		key : value
+	}; 
+	-> Constructed form
+	var obj = new Object();
+	obj.key = value;
+2. Mis-statement:
+	-> Everything in javascript is an object - clearly not true
+	-> strings, numbers, booleans are primitives, not object
+	var a = "foo";
+	var sub = a.substring(0,1); //f
+	// behind the scene
+	1. create a wrapper String object (new String(a))
+	2. call the substring method with appropriate parameter on String object
+	3. Dispose of the String object
+	4. Retirn the string primitive
+3. Contents:
+	var obj = {
+	 	a : 2
+	}
+	obj.a; // 2
+	obj["a"]; // 2
+	-> . operator required Identifier
+	-> [] operator can take any UTF/unicode compatiable string as name for the property
+	["super-fun!"]
+4. Property Descriptor:
+	-> set property like writable, configurable, enumerable to object
+	var obj = {};
+	Object.defineProperty(obj, "value", {
+		value : "key",
+		writable : true,
+		configurable : true,
+		enumerable : true
+	});
+5. Immutability:
+	-> 	Prevent Extension
+		|-> To prevent an object from having new properties added to it
+		Object.preventExtension();
+	-> Seal
+		|-> create a sealed object
+		Object.seal();
+	-> Freeze: 
+		|-> highest level of immuatibility, it pevent any changes to the object
+		Object.freeze();
+6. Getter and Setter:
+	-> Put and Get operation for object control how values are set, new properties or retrieve from existing properties
+7. Existence: 
+	-> obj.hasOwnProperty("value")	
+8. Iteration:
+	var arr = [1, 2]
+	for(var a of arr){}
