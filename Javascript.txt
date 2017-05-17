@@ -118,9 +118,64 @@ Chapter - 4:
 	-> declaration come before the assignment
 	-> variable and function declarations are moved to top of their respective scopes.
 
-Chapter - 5
+Chapter - 5:
 1. Scope Closure:
 	-> closure is when a function can remember and access its lexical scope even its invoked outside its lexical scope.
 2. Dynamic 	Scope:
 	-> lexical scope is write-time, whereas dynamic scope(this) are runtime
  
+ This & Object Prototypes
+
+ Chapter - 1:
+1. Use of this:
+	-> John is running fast because, he is trying to catch the train
+	-> "he" referes to john
+	-> "this" keyword is used as a shortcut, a referent
+	-> It refer to an object in subject of executing code.
+2. Misconceptions:
+	-> this referes to the function itself
+	-> this refers to function's scope
+3. What is this?
+	-> this is a run-time binding not an author-time binding.
+	-> It is contextual based on the function invocation (manner in which the function is called)
+	-> During function invocation an execution context is created.
+	|-> This maintains the call-stack
+	->"this" is actuially a binding that is made when a function is invoked, and it references is determined by the call-site.
+
+Chapter - 2:
+This all makes sense now:
+
+1. Call-site:
+	-> The location where the code is called, not where its declared
+2. Nothing but Rules:
+	-> The call-site determines where "this" will point during execution of a function.
+	a. Default Binding:
+		-> standalone function invocation
+		fun foo(){
+			console.log(this.a)
+		}
+		var a = 2;
+		foo(); //2 
+		-> If the contents is in strict mode, it return undefined
+		-> Intentionally mixing string mode and non-strict mode, result either be strict or non-strict.
+		-> var bar = foo();
+	b. Implicit Binding:
+		-> The call-site have a context object, also referred to as an owning or containing object.
+		fun foo(){
+			console.log(this.a)
+		}	
+		var obj = {
+			a : 2,
+			foo : foo
+		}
+		obj.foo(); //2 
+		-> implicitly lost, when the foo is called from global context (apply default binding)
+		-> var bar = obj.foo();
+	c. Explicit Binding: 
+		-> Force a function call to use a particular object for the 'this' binding
+		-> call() and apply()
+		-> var bar = foo.call(obj)
+	d. Hard Binding: 
+		-> built-in utility Function.prototype.bind
+		-> bind() returns a new function that is hard-coded to call the original function with the this context.
+		-> var bar = new foo();
