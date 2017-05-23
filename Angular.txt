@@ -43,7 +43,7 @@ Dirty checking:
   Borwser:             Javascript:
 
 [Event Queue] --> $apply(fun) --> fun() 
-	 || 							|
+	 || 			|
 [DOM Render]		  $evalAsync queue
 		            ($digest loop)
 	<-------------------- $watch List
