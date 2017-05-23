@@ -1,0 +1,31 @@
+Modules:
+	-> modules are use to seperate the application logic (controller, service, etc)
+angular.module: 
+	-> Its a global place for creating, registering and retrieving angular js modules
+Configuration Block:
+	-> Get executed during the provider registration and config phase
+	-> only provider and constant can be injected
+	-> To prevent accidental installation of services befor configured.
+Run Block:
+	-> Get executed after the injector is created
+	-> used to kickstart the appliction
+	-> only instant and constant can be injected
+ng-bind: 
+	-> one way data binding ($scope -> view)
+	-> It display the scope value inserted into the html
+ng-modal:
+	-> Two way data binding ($scope-> view and view -> $scope)
+$timeout(callback):
+	-> It will wait until the current digest cycle is done and then execute the callback, then run $apply.
+$timeout(callback, delay, false):
+	-> It will also wait, but execute callback with delay.
+	-> But it does not fire $apply(), Thus save performace but didn't modify $scope.
+$scope.$apply(callback):
+	-> It will re-digest the root scope of the application and all of its children, even if its in isolated scope(mostly directive).
+$scope.$digest():
+	-> It will sync its model to the view.
+	-> But it will not digest its parent scope, which can save performance
+	-> Does not take any callback
+$evalAsync(callback):
+	-> It will add callback to the current or next digest cycle.
+	
