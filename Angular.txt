@@ -28,4 +28,25 @@ $scope.$digest():
 	-> Does not take any callback
 $evalAsync(callback):
 	-> It will add callback to the current or next digest cycle.
-	
+$digest():
+	-> It process all the watches of the current scope and its children. 
+	-> usually we don't call $digest, instead we should call $apply(), which force a $digest()
+
+Digest Loop:
+ 	-> Every model binding in UI is given the $watch is added to the $watch list.
+ 	-> The list of $watch function are resolved during the $digest loop via dirty checking
+ 	-> $digest loop is triggered by $apply()
+Dirty checking:
+	-> The $watch, list and compares the oldValue and newValue
+	-> If no changes to specific binding watched, it moves to the next item in $watch list
+
+  Borwser:             Javascript:
+
+[Event Queue] --> $apply(fun) --> fun() 
+	 || 							|
+[DOM Render]		  $evalAsync queue
+		            ($digest loop)
+	<-------------------- $watch List
+
+$scope.$apply()
+	-> It forces a $digest loop
