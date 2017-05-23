@@ -48,5 +48,22 @@ Dirty checking:
 		            ($digest loop)
 	<-------------------- $watch List
 
-$scope.$apply()
-	-> It forces a $digest loop
+Recap of $watch(), $digest(), $apply()
+	-> Angular $scope has some central function like $watch(), $digest(), $apply()
+Data Binding:
+	-> when we create a data binding in view ($scope variable)
+	-> It create a $watch internally.
+	-> $watch, watches the variable, it is created using $scope.$watch()
+	-> The $scope.$digest() function iterate through all the watches and check if any watched variables have changed.
+	-> If a watched variables is changed it calls a listner function.
+	-> Thus $digest() is what triggered the data binding to update.
+	-> In some situation we may call this by ourself, using $scope.$apply()
+$watch():
+	-> It create watch for some variable
+	-> It accept two argument 'A value function and A listner function'
+$digest():
+	-> It iterate through all the watches in the $scope object and its child $scope objects.
+	-> If the value return by the value function and the its last value was same then it will call the listener function.
+	-> It will calls when a button click handler has been executed or after the ajax call return.
+$apply():
+	-> The $scope.$apply() function takes a function as paramater which is executed after the $scope.$digest() is called internally.
